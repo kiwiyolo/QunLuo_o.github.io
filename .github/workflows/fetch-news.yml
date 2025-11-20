@@ -1,0 +1,66 @@
+name: Fetch Latest Science News
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-news:
+    if: github.repository_owner != 'HugoBlox'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install feedparser requests
+      - name: Generate news.json
+        run: |
+          python - <<'PY'
+          import json, time
+          import feedparser
+
+          FEEDS = [
+            ("Nature", "https://www.nature.com/nature.rss"),
+            ("Science", "https://www.science.org/action/showFeed?type=etoc&feed=rss&journal=science"),
+            ("ScienceDaily", "https://www.sciencedaily.com/rss/top/science.xml"),
+            ("arXiv AI", "https://rss.arxiv.org/rss/cs.AI")
+          ]
+
+          items = []
+          for source, url in FEEDS:
+            try:
+              d = feedparser.parse(url)
+              for e in d.entries[:10]:
+                items.append({
+                  "source": source,
+                  "title": e.get("title", ""),
+                  "url": e.get("link", ""),
+                  "date": e.get("published", e.get("updated", ""))
+                })
+            except Exception:
+              pass
+
+          items.sort(key=lambda x: x.get("date", ""), reverse=True)
+          import os
+          os.makedirs('static', exist_ok=True)
+          with open('static/news.json', 'w', encoding='utf-8') as f:
+            json.dump(items[:50], f, ensure_ascii=False)
+          PY
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'content: update science news'
+          title: Update science news
+          body: Update static/news.json with the latest science news RSS.
+          base: main
+          labels: automated-pr, content
+          branch: auto-update-news
+          delete-branch: true

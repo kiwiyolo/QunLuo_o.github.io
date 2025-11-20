@@ -1,0 +1,52 @@
+<script>
+(() => {
+  const username = '{{ site.Params.profile.github_username | default "QunLuo" }}';
+  const repoContainer = document.getElementById('gh-repos');
+  if (repoContainer) {
+    fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`)
+      .then(r => r.json())
+      .then(repos => {
+        if (!Array.isArray(repos)) return;
+        const items = repos
+          .filter(r => !r.fork)
+          .sort((a,b) => new Date(b.pushed_at) - new Date(a.pushed_at))
+          .slice(0, 9)
+          .map(r => {
+            const lang = r.language ? ` · ${r.language}` : '';
+            const desc = r.description ? r.description : '';
+            return `<a class="hb-card block p-4 rounded-md border hover:border-primary-500" href="${r.html_url}" target="_blank" rel="noopener noreferrer">
+                      <div class="font-semibold">${r.name}${lang}</div>
+                      <div class="text-sm opacity-80">${desc}</div>
+                      <div class="text-xs opacity-60">★ ${r.stargazers_count} · Updated ${new Date(r.pushed_at).toLocaleDateString()}</div>
+                    </a>`;
+          }).join('');
+        repoContainer.innerHTML = `<div class="grid md:grid-cols-3 gap-4">${items}</div>`;
+      }).catch(() => {
+        repoContainer.innerHTML = '<div class="opacity-70">Failed to load repositories.</div>';
+      });
+  }
+
+  const newsContainer = document.getElementById('science-news');
+  if (newsContainer) {
+    const src = newsContainer.getAttribute('data-source') || '/news.json';
+    fetch(src)
+      .then(r => r.json())
+      .then(items => {
+        if (!Array.isArray(items)) return;
+        const html = items.slice(0, 8).map(n => {
+          const date = n.date ? new Date(n.date).toLocaleDateString() : '';
+          const source = n.source || '';
+          const title = n.title || '';
+          const url = n.url || '#';
+          return `<a class="hb-card block p-4 rounded-md border hover:border-primary-500" href="${url}" target="_blank" rel="noopener noreferrer">
+                    <div class="font-semibold">${title}</div>
+                    <div class="text-xs opacity-60">${source} · ${date}</div>
+                  </a>`;
+        }).join('');
+        newsContainer.innerHTML = `<div class="grid md:grid-cols-2 gap-4">${html}</div>`;
+      }).catch(() => {
+        newsContainer.innerHTML = '<div class="opacity-70">新闻暂不可用，请稍后重试。</div>';
+      });
+  }
+})();
+</script>
