@@ -1,1 +1,323 @@
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全球AI天气气候预报模型演进报告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen">
+
+    <!-- Chosen Palette: [Slate & Blue/Teal Palette - Background: #f8fafc (slate-50), Text: #0f172a (slate-900), Accents: #0284c7 (light blue-600) and #0d9488 (teal-600) to represent sky, water, and technological advancement in a clean, clinical layout.] -->
+    
+    <!-- Application Structure Plan: [The SPA is structured as an interactive dashboard. 
+    1. Header & Intro: Establishes context and explains the exclusion of generic time-series models. 
+    2. Interactive Timeline & Analytics (Visualizations): Provides a macro-view of the rapid development pace and architectural shifts using Chart.js.
+    3. Model Explorer (Grid + Filters): The core interaction area. Users can filter the database of models by Year, Architecture, and Developer to dynamically explore specific sub-segments of the AI weather forecasting landscape. 
+    This structure is chosen because it allows users to first grasp the high-level trends (the "what and when") before diving into the specific details of individual models (the "who and how"), effectively handling dense technological data.] -->
+
+    <!-- Visualization & Content Choices: [
+    Goal 1: Show rapid emergence of models over time. Viz: Bar Chart (Chart.js). Interaction: Hover tooltips. Justification: Clearest way to show volume per year. 
+    Goal 2: Show architectural distribution (Transformer vs GNN vs Diffusion). Viz: Doughnut Chart (Chart.js). Interaction: Hover. Justification: Shows market share of core technologies. 
+    Goal 3: Detailed Model Data. Viz: Interactive HTML Grid with CSS cards. Interaction: Dropdown filters. Justification: Allows user-driven exploration of specific model characteristics without overwhelming them with a massive table. NO SVG/Mermaid used; pure HTML/CSS and Canvas.] -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <header class="bg-slate-900 text-white py-12 px-4 shadow-lg border-b-4 border-blue-500">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">&#x1F30D; 2022-2026 全球AI气象与气候预报模型演进报告</h1>
+            <p class="text-xl text-slate-300 max-w-4xl leading-relaxed">
+                自2022年起，人工智能在天气和气候预测领域引发了范式转变。数据驱动的模型在许多指标上开始超越传统的数值天气预报（NWP）。本报告全面梳理了具有重大全球影响力的AI预报模型及其基础架构。
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-12">
+
+        <section id="introduction" class="bg-white rounded-2xl p-8 glass-card border-l-4 border-teal-500">
+            <h2 class="text-2xl font-bold text-slate-800 mb-4">&#x1F4DC; 核心发现与报告说明</h2>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                本应用提供了一个互动的视角来探索过去几年内AI气象模型的爆发式增长。我们将重点聚焦于<strong>真正针对“全球高分辨率空间气象和气候预测”</strong>构建的模型（如 GraphCast, Pangu-Weather, Aurora）。
+            </p>
+            <div class="bg-blue-50 text-blue-800 p-4 rounded-lg text-sm border border-blue-100">
+                <strong>&#x26A0;&#xFE0F; 数据清洗说明：</strong> 
+                在初步调研名单中包含的 TimeGPT-1, Chronos, Lag-Llama, Moirai 等模型，经核实属于<strong>通用时间序列基础模型 (General Time-Series Foundation Models)</strong>。虽然它们可用于特定气象站点的单变量预测，但并不具备全球三维大气流体动力学的空间建模能力。为保证报告的专业性和聚焦度，本系统已将纯一维时间序列模型过滤，仅保留全球大气/气候架构模型。
+            </div>
+        </section>
+
+        <section id="analytics" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white rounded-2xl p-6 glass-card">
+                <h3 class="text-xl font-bold text-slate-800 mb-2 text-center">&#x1F4C8; 全球AI气象模型发布时间线 (2022-2026)</h3>
+                <p class="text-sm text-slate-500 text-center mb-6">展示每年具有代表性的全球AI预报模型发布数量。</p>
+                <div class="chart-container">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 glass-card">
+                <h3 class="text-xl font-bold text-slate-800 mb-2 text-center">&#x269B;&#xFE0F; 主流基础架构分布</h3>
+                <p class="text-sm text-slate-500 text-center mb-6">各模型采用的核心神经网络技术路线对比。</p>
+                <div class="chart-container">
+                    <canvas id="architectureChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="explorer" class="bg-white rounded-2xl p-8 glass-card">
+            <div class="mb-8 border-b pb-6">
+                <h2 class="text-3xl font-bold text-slate-800 mb-2">&#x1F50D; 全球模型探索图谱</h2>
+                <p class="text-slate-600">
+                    使用下方控件筛选和浏览特定的模型系统。了解每个模型的发布单位、发布时间和核心架构革新。
+                </p>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-4 mb-8 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <div class="flex-1">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1" for="yearFilter">按发布年份筛选</label>
+                    <select id="yearFilter" class="w-full p-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="all">全部年份 (2022-2026)</option>
+                        <option value="2022">2022年 (突破元年)</option>
+                        <option value="2023">2023年 (百花齐放)</option>
+                        <option value="2024">2024年 (生成式与物理融合)</option>
+                        <option value="2025">2025年 (多模态升级)</option>
+                        <option value="2026">2026年 (下一代数字孪生)</option>
+                    </select>
+                </div>
+                <div class="flex-1">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1" for="archFilter">按模型架构筛选</label>
+                    <select id="archFilter" class="w-full p-2 border border-slate-300 rounded-lg bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="all">全部架构</option>
+                        <option value="Transformer">Transformer (ViT/Swin)</option>
+                        <option value="GNN">图神经网络 (GNN)</option>
+                        <option value="Diffusion">扩散模型 (Diffusion)</option>
+                        <option value="Hybrid">物理-AI融合 / 混合架构</option>
+                        <option value="Neural Operator">神经算子 (FNO/ODE)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="modelGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+            
+            <div id="noResults" class="hidden text-center py-12 text-slate-500">
+                &#x1F6AB; 没有找到符合当前筛选条件的模型，请尝试调整筛选选项。
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-12 border-t border-slate-800">
+        <p>&#x26C5; 全球AI天气与气候预测模型库 &copy; 2026 | 基于先进架构数据整理</p>
+    </footer>
+
+    <script>
+        const modelData = [
+            { id: 1, name: "FourCastNet", year: 2022, month: "2月", developer: "NVIDIA", archCategory: "Neural Operator", archDetail: "自适应傅里叶神经算子 (AFNO)", desc: "最早以高分辨率(0.25度)运行的全球数据驱动天气预测模型之一，速度比传统数值预报快数万倍。" },
+            { id: 2, name: "Pangu-Weather", year: 2022, month: "11月", developer: "华为", archCategory: "Transformer", archDetail: "3D Earth-Specific Transformer", desc: "首次在核心气象变量预测上超越了欧洲中期天气预报中心(ECMWF)的综合预报系统(IFS)。" },
+            { id: 3, name: "GraphCast", year: 2022, month: "12月", developer: "Google DeepMind", archCategory: "GNN", archDetail: "图神经网络 (Graph Neural Networks)", desc: "使用网格到图形传递技术，在90%以上的验证指标上显著优于当时最领先的NWP系统。" },
+            { id: 4, name: "ClimaX", year: 2023, month: "1月", developer: "Microsoft / UCLA", archCategory: "Transformer", archDetail: "Vision Transformer (ViT)", desc: "首个天气和气候科学的基础模型，支持跨多种变量和时空分辨率的灵活输入。" },
+            { id: 5, name: "FengWu (风乌)", year: 2023, month: "4月", developer: "上海人工智能实验室", archCategory: "Transformer", archDetail: "多模态架构 (Multi-modal Transformer)", desc: "首次将全球气象有效预报时间突破了10天(10.75天)的物理极限。" },
+            { id: 6, name: "FuXi (伏羲)", year: 2023, month: "6月", developer: "阿里巴巴", archCategory: "Transformer", archDetail: "级联Swin Transformer", desc: "优化了长期预报的误差累积问题，提供高达15天的高精度全球天气预报。" },
+            { id: 7, name: "AIFS", year: 2023, month: "10月", developer: "ECMWF", archCategory: "Hybrid", archDetail: "GNN与Transformer融合", desc: "欧洲中期天气预报中心官方推出的数据驱动模型，标志着传统气象机构全面拥抱AI。" },
+            { id: 8, name: "NeuralGCM", year: 2023, month: "11月", developer: "Google", archCategory: "Hybrid", archDetail: "可微分流体动力学 + 神经网络", desc: "结合了传统大气环流模型(GCM)的物理规律与AI的效率，长效气候模拟能力极强。" },
+            { id: 9, name: "GenCast", year: 2023, month: "12月", developer: "Google DeepMind", archCategory: "Diffusion", archDetail: "扩散模型 (Diffusion Model)", desc: "概率性/集合天气预报模型，不仅输出单一结果，而是生成可能的天气演变分布以量化不确定性。" },
+            { id: 10, name: "Prithvi WxC", year: 2023, month: "12月", developer: "IBM / NASA", archCategory: "Transformer", archDetail: "掩码自编码空间Transformer", desc: "开源的地球观测与天气基础模型，使用大量卫星及气象数据联合预训练。" },
+            { id: 11, name: "SEEDS", year: 2024, month: "3月", developer: "Google", archCategory: "Diffusion", archDetail: "生成式AI扩散采样", desc: "用于大规模且经济地生成天气集合预报，有效评估极端天气概率。" },
+            { id: 12, name: "Aurora", year: 2024, month: "5月", developer: "Microsoft", archCategory: "Transformer", archDetail: "3D Swin Transformer基础模型", desc: "不仅能预测气象变量，还扩展到了大气化学与空气污染(如二氧化氮)的三维预测。" },
+            { id: 13, name: "WeatherODE", year: 2024, month: "8月", developer: "学术界联合", archCategory: "Neural Operator", archDetail: "神经常微分方程 (Neural ODEs)", desc: "采用连续时间的物理信息系统设计，能够处理非规则采样的气象观测数据。" },
+            { id: 14, name: "TianXing (天行)", year: 2025, month: "1月", developer: "腾讯及合作机构", archCategory: "Transformer", archDetail: "高效混合注意力Transformer", desc: "针对公里级超高分辨率预报优化的架构，降低了高频气象现象(如强对流)的预报延迟。" },
+            { id: 15, name: "Earth-2 NextGen", year: 2026, month: "近期预研", developer: "NVIDIA", archCategory: "Hybrid", archDetail: "数字孪生超级架构", desc: "结合CorrDiff等超分辨率扩散模型与物理定律的下一代交互式地球气象数字孪生系统。" }
+        ];
+
+        const chartColors = {
+            blue: 'rgba(59, 130, 246, 0.8)',
+            teal: 'rgba(20, 184, 166, 0.8)',
+            indigo: 'rgba(99, 102, 241, 0.8)',
+            purple: 'rgba(168, 85, 247, 0.8)',
+            orange: 'rgba(249, 115, 22, 0.8)',
+            gray: 'rgba(148, 163, 184, 0.2)'
+        };
+
+        function initCharts() {
+            const yearCounts = { '2022': 0, '2023': 0, '2024': 0, '2025': 0, '2026': 0 };
+            const archCounts = {};
+
+            modelData.forEach(m => {
+                yearCounts[m.year] = (yearCounts[m.year] || 0) + 1;
+                archCounts[m.archCategory] = (archCounts[m.archCategory] || 0) + 1;
+            });
+
+            const ctxTimeline = document.getElementById('timelineChart').getContext('2d');
+            new Chart(ctxTimeline, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(yearCounts),
+                    datasets: [{
+                        label: '发布的全球AI气象模型数量',
+                        data: Object.values(yearCounts),
+                        backgroundColor: chartColors.blue,
+                        borderRadius: 6,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1, color: '#64748b' },
+                            grid: { color: '#f1f5f9' }
+                        },
+                        x: {
+                            ticks: { color: '#64748b' },
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            padding: 12,
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 14 }
+                        }
+                    }
+                }
+            });
+
+            const ctxArch = document.getElementById('architectureChart').getContext('2d');
+            new Chart(ctxArch, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(archCounts),
+                    datasets: [{
+                        data: Object.values(archCounts),
+                        backgroundColor: [
+                            chartColors.teal,
+                            chartColors.blue,
+                            chartColors.indigo,
+                            chartColors.orange,
+                            chartColors.purple
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { color: '#475569', padding: 20, font: { size: 12 } }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            padding: 12
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderGrid(data) {
+            const grid = document.getElementById('modelGrid');
+            const noResults = document.getElementById('noResults');
+            grid.innerHTML = '';
+
+            if (data.length === 0) {
+                grid.classList.add('hidden');
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            grid.classList.remove('hidden');
+            noResults.classList.add('hidden');
+
+            data.forEach(model => {
+                let badgeColor = 'bg-slate-100 text-slate-700';
+                if (model.archCategory === 'Transformer') badgeColor = 'bg-teal-100 text-teal-800 border-teal-200';
+                if (model.archCategory === 'GNN') badgeColor = 'bg-blue-100 text-blue-800 border-blue-200';
+                if (model.archCategory === 'Hybrid') badgeColor = 'bg-indigo-100 text-indigo-800 border-indigo-200';
+                if (model.archCategory === 'Diffusion') badgeColor = 'bg-orange-100 text-orange-800 border-orange-200';
+                if (model.archCategory === 'Neural Operator') badgeColor = 'bg-purple-100 text-purple-800 border-purple-200';
+
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow duration-300 flex flex-col h-full';
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-slate-800">${model.name}</h3>
+                        <span class="text-sm font-semibold text-slate-500 bg-slate-100 px-2 py-1 rounded">${model.year}.${model.month}</span>
+                    </div>
+                    <div class="mb-4 flex-grow">
+                        <p class="text-sm text-slate-600 mb-2"><strong class="text-slate-700">&#x1F3E2; 开发机构:</strong> ${model.developer}</p>
+                        <p class="text-sm text-slate-600 mb-2"><strong class="text-slate-700">&#x2699;&#xFE0F; 详细架构:</strong> ${model.archDetail}</p>
+                        <div class="mt-3">
+                            <span class="inline-block px-3 py-1 text-xs font-semibold border rounded-full ${badgeColor}">
+                                ${model.archCategory}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-slate-100">
+                        <p class="text-sm text-slate-600 leading-relaxed">${model.desc}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterData() {
+            const yearVal = document.getElementById('yearFilter').value;
+            const archVal = document.getElementById('archFilter').value;
+
+            const filtered = modelData.filter(m => {
+                const matchYear = yearVal === 'all' || m.year.toString() === yearVal;
+                const matchArch = archVal === 'all' || m.archCategory === archVal;
+                return matchYear && matchArch;
+            });
+
+            renderGrid(filtered);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            renderGrid(modelData);
+            
+            document.getElementById('yearFilter').addEventListener('change', filterData);
+            document.getElementById('archFilter').addEventListener('change', filterData);
+        });
+
+    </script>
+</body>
+</html>
