@@ -1,0 +1,105 @@
+---
+title: ""
+page-layout: full
+format:
+  html:
+    toc: false
+---
+
+<div class="hero">
+  <h1>QunLuo's City</h1>
+  <p>Hydrology × AI · Water quality · Urban flood modeling. Click a building to enter a page.</p>
+
+  <div class="city-wrap">
+    <div class="city-meta">
+      <a class="chip" href="content/about.html">About</a>
+      <a class="chip" href="content/projects.html">Projects</a>
+      <a class="chip" href="content/blog.html">Blog</a>
+      <a class="chip" href="content/contact.html">Contact</a>
+      <a class="chip" href="https://github.com/kiwiyolo" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+
+    <svg class="city" viewBox="0 0 1100 520" role="img" aria-label="Isometric city map with clickable buildings">
+      <defs>
+        <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0b1220" stop-opacity="0.92" />
+          <stop offset="1" stop-color="#111827" stop-opacity="0.98" />
+        </linearGradient>
+        <linearGradient id="road" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#1f2937" stop-opacity="0.9" />
+          <stop offset="1" stop-color="#111827" stop-opacity="0.9" />
+        </linearGradient>
+        <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#60a5fa" stop-opacity="0.55" />
+          <stop offset="1" stop-color="#34d399" stop-opacity="0.35" />
+        </linearGradient>
+      </defs>
+
+      <rect x="0" y="0" width="1100" height="520" fill="url(#ground)" />
+
+      <path d="M120 360 L420 210 L760 360 L460 505 Z" fill="url(#road)" opacity="0.9" />
+      <path d="M420 210 L690 120 L980 260 L760 360 Z" fill="url(#road)" opacity="0.55" />
+      <path d="M120 360 L360 260 L690 420 L460 505 Z" fill="url(#road)" opacity="0.55" />
+
+      <a href="content/about.html">
+        <g class="bldg" transform="translate(265 230)">
+          <polygon points="0,120 120,60 260,140 140,200" fill="#111827" opacity="0.95" />
+          <polygon points="120,0 260,80 260,140 120,60" fill="#1f2937" opacity="0.95" />
+          <polygon points="0,60 120,0 120,60 0,120" fill="#0f172a" opacity="0.95" />
+          <polygon points="120,12 232,78 232,128 120,62" fill="url(#glass)" opacity="0.75" />
+          <text class="bldg-title" x="130" y="168" text-anchor="middle">About</text>
+          <text class="bldg-sub" x="130" y="188" text-anchor="middle">Profile & Interests</text>
+        </g>
+      </a>
+
+      <a href="content/projects.html">
+        <g class="bldg" transform="translate(520 145)">
+          <polygon points="0,150 150,70 310,165 160,245" fill="#111827" opacity="0.96" />
+          <polygon points="150,0 310,95 310,165 150,70" fill="#1f2937" opacity="0.96" />
+          <polygon points="0,70 150,0 150,70 0,150" fill="#0f172a" opacity="0.96" />
+          <polygon points="150,18 285,100 285,150 150,72" fill="url(#glass)" opacity="0.8" />
+          <text class="bldg-title" x="160" y="205" text-anchor="middle">Projects</text>
+          <text class="bldg-sub" x="160" y="225" text-anchor="middle">Research & Tools</text>
+        </g>
+      </a>
+
+      <a href="content/blog.html">
+        <g class="bldg" transform="translate(725 255)">
+          <polygon points="0,110 110,55 245,130 135,185" fill="#111827" opacity="0.95" />
+          <polygon points="110,0 245,75 245,130 110,55" fill="#1f2937" opacity="0.95" />
+          <polygon points="0,55 110,0 110,55 0,110" fill="#0f172a" opacity="0.95" />
+          <polygon points="110,14 225,78 225,120 110,56" fill="url(#glass)" opacity="0.75" />
+          <text class="bldg-title" x="125" y="155" text-anchor="middle">Blog</text>
+          <text class="bldg-sub" x="125" y="175" text-anchor="middle">Notes & Writing</text>
+        </g>
+      </a>
+
+      <a href="content/contact.html">
+        <g class="bldg" transform="translate(410 320)">
+          <polygon points="0,90 95,40 210,105 115,155" fill="#111827" opacity="0.95" />
+          <polygon points="95,0 210,65 210,105 95,40" fill="#1f2937" opacity="0.95" />
+          <polygon points="0,40 95,0 95,40 0,90" fill="#0f172a" opacity="0.95" />
+          <polygon points="95,12 195,70 195,96 95,42" fill="url(#glass)" opacity="0.75" />
+          <text class="bldg-title" x="105" y="130" text-anchor="middle">Contact</text>
+          <text class="bldg-sub" x="105" y="150" text-anchor="middle">Say Hi</text>
+        </g>
+      </a>
+
+      <a href="https://github.com/kiwiyolo" target="_blank" rel="noopener noreferrer">
+        <g class="bldg" transform="translate(860 170)">
+          <polygon points="0,120 110,62 250,140 140,200" fill="#0b1220" opacity="0.95" />
+          <polygon points="110,0 250,78 250,140 110,62" fill="#111827" opacity="0.95" />
+          <polygon points="0,62 110,0 110,62 0,120" fill="#0a0f1f" opacity="0.95" />
+          <polygon points="110,14 232,80 232,126 110,64" fill="#60a5fa" opacity="0.25" />
+          <text class="bldg-title" x="130" y="168" text-anchor="middle">GitHub</text>
+          <text class="bldg-sub" x="130" y="188" text-anchor="middle">Repos & Code</text>
+        </g>
+      </a>
+    </svg>
+  </div>
+
+  <div class="footer-links">
+    <a href="content/projects.html">See project progress</a>
+    <a href="https://github.com/kiwiyolo" target="_blank" rel="noopener noreferrer">Follow on GitHub</a>
+  </div>
+</div>

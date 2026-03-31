@@ -1,0 +1,31 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - index.qmd
+    - content/**/*.qmd
+    - assets/**/*
+
+website:
+  title: "QunLuo"
+  site-url: "https://kiwiyolo.github.io/QunLuo.github.io/"
+  repo-url: "https://github.com/kiwiyolo/QunLuo.github.io"
+  navbar:
+    left:
+      - text: Home
+        href: index.qmd
+      - text: About
+        href: content/about.qmd
+      - text: Projects
+        href: content/projects.qmd
+      - text: Blog
+        href: content/blog.qmd
+      - text: Contact
+        href: content/contact.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: assets/styles.css
+    toc: false
+    page-layout: full

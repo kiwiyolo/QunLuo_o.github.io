@@ -1,0 +1,22 @@
+---
+title: "About"
+---
+
+## Hi, I'm QunLuo
+
+I work on **hydrology + machine learning**, with a focus on:
+
+- Water quality prediction (e.g., LSTM + optimization / transfer learning)
+- Urban flood modeling & calibration (e.g., SWMM + GA and surrogate learning)
+- Multi-scale deep learning for hydrological processes
+
+## What you’ll find here
+
+- **Projects**: research codebases and experiments, with a clear progress snapshot
+- **Blog**: short notes on modeling, PKM, and coding workflows
+- **Contact**: collaboration and discussion channels
+
+## Links
+
+- GitHub: <https://github.com/kiwiyolo>
+- Website repo: <https://github.com/kiwiyolo/QunLuo.github.io>

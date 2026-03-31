@@ -1,0 +1,15 @@
+---
+title: "Blog"
+---
+
+## Notes
+
+This section collects short, practical notes on:
+
+- modeling workflows (hydrology / water quality / urban flooding)
+- reproducible research tooling
+- reading notes and paper digestion
+
+## Automated reading stream
+
+- Daily arXiv summaries: <https://github.com/kiwiyolo/Daily-arXiv-ai-enhanced>

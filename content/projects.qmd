@@ -1,0 +1,33 @@
+---
+title: "Projects"
+---
+
+## Progress snapshot
+
+<div>
+  <p><strong>Overall</strong>: 4 / 7 projects marked as completed</p>
+  <progress value="4" max="7" style="width: min(520px, 100%); height: 18px;"></progress>
+  <p style="margin-top: 0.5rem; color: rgba(156, 163, 175, 0.95);">Status is curated from repository activity and maturity. It’s a lightweight, human-readable signal (not an automated metric).</p>
+</div>
+
+## Featured repositories
+
+| Repository | Area | Status | Progress | Links |
+|---|---|---:|---:|---|
+| Optimal-prediction-WQ | Water quality prediction | Completed | <progress value="100" max="100"></progress> | <https://github.com/kiwiyolo/Optimal-prediction-WQ> |
+| pyswmm_GA_smi | SWMM + GA calibration | Completed | <progress value="100" max="100"></progress> | <https://github.com/kiwiyolo/pyswmm_GA_smi> |
+| HydroNet-Multi-scale | Multi-scale hydrology DL | Completed | <progress value="100" max="100"></progress> | <https://github.com/kiwiyolo/HydroNet-Multi-scale> |
+| Suitable-coupling-for-PN | Coupling strategies + attribution | Completed | <progress value="100" max="100"></progress> | <https://github.com/kiwiyolo/Suitable-coupling-for-PN> |
+| Daily-arXiv-ai-enhanced | Daily arXiv crawl + AI summaries | In progress | <progress value="60" max="100"></progress> | <https://github.com/kiwiyolo/Daily-arXiv-ai-enhanced> |
+| Notes_utils_personal | Personal research utilities (Obsidian-linked) | In progress | <progress value="55" max="100"></progress> | <https://github.com/kiwiyolo/Notes_utils_personal> |
+| QunLuo.github.io | This website (Quarto edition) | In progress | <progress value="70" max="100"></progress> | <https://github.com/kiwiyolo/QunLuo.github.io> |
+
+## Quick badges
+
+<div style="display:flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;">
+  <img alt="Optimal-prediction-WQ stars" src="https://img.shields.io/github/stars/kiwiyolo/Optimal-prediction-WQ?style=flat-square" />
+  <img alt="pyswmm_GA_smi forks" src="https://img.shields.io/github/forks/kiwiyolo/pyswmm_GA_smi?style=flat-square" />
+  <img alt="Suitable-coupling-for-PN stars" src="https://img.shields.io/github/stars/kiwiyolo/Suitable-coupling-for-PN?style=flat-square" />
+  <img alt="Daily-arXiv-ai-enhanced last commit" src="https://img.shields.io/github/last-commit/kiwiyolo/Daily-arXiv-ai-enhanced?style=flat-square" />
+  <img alt="QunLuo.github.io last commit" src="https://img.shields.io/github/last-commit/kiwiyolo/QunLuo.github.io?style=flat-square" />
+</div>

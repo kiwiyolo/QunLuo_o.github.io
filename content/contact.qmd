@@ -1,0 +1,16 @@
+---
+title: "Contact"
+---
+
+## Get in touch
+
+- GitHub: <https://github.com/kiwiyolo>
+- Open an issue on the website repo: <https://github.com/kiwiyolo/QunLuo.github.io/issues>
+
+## Collaboration
+
+I’m happy to chat about:
+
+- water quality / hydrology prediction tasks
+- SWMM calibration workflows and surrogate modeling
+- reproducible ML experiments for environmental data
